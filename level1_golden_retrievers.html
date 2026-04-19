@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Features — Level 1: Golden Retrievers</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0efe9;color:#1a1a1a;font-size:14px;line-height:1.75;}
+.page-header{background:#fff;border-bottom:1px solid #ddd;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:200;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.ph-left h1{font-size:16px;font-weight:700;color:#1a1a1a;}
+.ph-left p{font-size:12px;color:#888;margin-top:1px;}
+.level-badge{font-size:11px;padding:3px 10px;border-radius:999px;background:#eaf3de;border:1px solid #97c459;color:#27500a;font-weight:700;}
+#prog-pill{font-size:12px;padding:5px 14px;border-radius:999px;background:#f0efe9;border:1px solid #ccc;color:#555;font-weight:600;transition:background .3s,color .3s;}
+#prog-pill.done{background:#eaf3de;border-color:#97c459;color:#27500a;}
+.directions{background:#eaf3de;border-left:4px solid #639922;padding:11px 18px;margin:14px 20px 10px;border-radius:0 6px 6px 0;font-size:13px;color:#27500a;line-height:1.6;}
+.directions strong{font-weight:700;}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 20px 40px;max-width:1300px;margin:0 auto;}
+@media(max-width:800px){.columns{grid-template-columns:1fr;padding:0 12px 40px;}.directions{margin:12px;}}
+.panel{background:#fff;border:1px solid #ddd;border-radius:10px;overflow:hidden;align-self:start;}
+.panel-hdr{padding:10px 15px;border-bottom:1px solid #ddd;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.t-hdr{background:#eaf3de;color:#173404;border-bottom-color:#97c459;}
+.s-hdr{background:#f5f4f0;color:#555;}
+.badge{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;}
+.b-green{background:#c0dd97;color:#173404;}
+.b-gray{background:#e2e0d8;color:#555;}
+.t-body{padding:16px;font-size:13.5px;line-height:1.85;user-select:none;}
+.t-title{font-size:22px;font-weight:800;color:#27500a;line-height:1.2;margin-bottom:4px;}
+.t-sub{font-size:13px;color:#666;font-style:italic;margin-bottom:14px;}
+.t-bold{font-weight:700;}
+.t-cap{font-size:11px;color:#888;font-style:italic;text-align:center;margin-top:3px;}
+.t-img{width:100%;height:110px;background:#eaf3de;border:1px solid #97c459;border-radius:7px;display:flex;align-items:center;justify-content:center;margin:10px 0 3px;}
+.t-sidebar{background:#faeeda;border:1px solid #fac775;border-radius:7px;padding:12px 13px;margin:12px 0;}
+.t-sidebar-ttl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#854f0b;margin-bottom:6px;}
+.t-sidebar-body{font-size:12.5px;color:#412402;line-height:1.6;}
+.t-ul{padding-left:18px;margin:5px 0 5px 4px;}
+.t-ul li{margin-bottom:4px;}
+.ft{display:inline-block;font-size:10px;padding:1px 6px;border-radius:999px;margin-left:4px;vertical-align:middle;font-weight:600;font-style:normal;cursor:help;border:1px solid;}
+.ft-title{background:#faeeda;color:#633806;border-color:#fac775;}
+.ft-sub{background:#fbeaf0;color:#4b1528;border-color:#ed93b1;}
+.ft-bold{background:#eaf3de;color:#173404;border-color:#97c459;}
+.ft-cap{background:#f5f4f0;color:#444;border-color:#b4b2a9;}
+.ft-sidebar{background:#faece7;color:#4a1b0c;border-color:#d85a30;}
+.ft-bullet{background:#faece7;color:#4a1b0c;border-color:#f0997b;}
+.toolbox{padding:11px 14px;border-bottom:1px solid #ddd;background:#fafaf8;}
+.tb-label{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px;}
+.tools-grid{display:flex;flex-wrap:wrap;gap:5px;}
+.tool-btn{font-size:11.5px;padding:5px 12px;border-radius:999px;border:1px solid #ccc;background:#fff;color:#1a1a1a;cursor:pointer;display:flex;align-items:center;gap:5px;font-family:inherit;transition:background .1s;}
+.tool-btn:hover{background:#f0efe9;border-color:#aaa;}
+.tool-btn.active{border-color:#639922;background:#eaf3de;color:#173404;outline:2px solid #c0dd97;}
+.tool-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.hint{font-size:11px;color:#aaa;margin-top:7px;}
+.s-body{padding:16px;font-size:13.5px;line-height:1.85;min-height:300px;}
+.sr{cursor:pointer;border-radius:4px;transition:background .12s;}
+.sr:hover{background:#f0efe9;outline:1.5px dashed #b4b2a9;}
+.sr.block{display:block;margin:4px 0;}
+.sr.locked{cursor:default;}
+.sr.locked:hover{background:transparent;outline:none;}
+.placeholder{display:block;padding:8px 11px;background:#fafaf8;border:1.5px dashed #d3d1c7;border-radius:6px;color:#aaa;font-size:12px;text-align:center;margin:8px 0;cursor:pointer;}
+.placeholder:hover{background:#f0efe9;border-color:#aaa;}
+.ap-title{font-size:22px;font-weight:800;color:#27500a;line-height:1.2;display:block;margin-bottom:4px;}
+.ap-sub{font-size:13px;color:#666;font-style:italic;display:block;margin-bottom:12px;}
+.ap-bold{font-weight:700;}
+.ap-cap{font-size:11px;color:#888;font-style:italic;text-align:center;display:block;margin-top:3px;}
+.ap-sidebar{background:#faeeda;border:1px solid #fac775;border-radius:7px;padding:12px 13px;display:block;margin:12px 0;}
+.ap-sidebar-ttl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#854f0b;margin-bottom:6px;}
+.ap-ul{padding-left:18px;margin:5px 0 5px 4px;display:block;}
+.ap-ul li{margin-bottom:4px;}
+.ap-img{width:100%;height:110px;background:#eaf3de;border:1px solid #97c459;border-radius:7px;display:flex;align-items:center;justify-content:center;margin:10px 0 3px;}
+.ctag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:999px;margin-left:5px;vertical-align:middle;font-weight:600;background:#eaf3de;color:#27500a;border:1px solid #97c459;}
+.footer{padding:12px 15px;border-top:1px solid #ddd;}
+.check-btn{width:100%;padding:9px;font-size:13px;font-weight:700;border-radius:8px;border:1px solid #639922;background:#eaf3de;color:#173404;cursor:pointer;font-family:inherit;transition:background .12s;}
+.check-btn:hover{background:#c0dd97;}
+.feedback{margin-top:9px;padding:10px 13px;border-radius:7px;font-size:13px;line-height:1.55;display:none;}
+.fb-ok{background:#eaf3de;color:#27500a;border:1px solid #97c459;}
+.fb-hint{background:#faeeda;color:#633806;border:1px solid #fac775;}
+.reset-btn{display:none;margin-top:7px;width:100%;padding:7px;font-size:12px;border-radius:8px;border:1px solid #ccc;background:#fff;color:#555;cursor:pointer;font-family:inherit;}
+.reset-btn:hover{background:#f0efe9;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="ph-left">
+    <h1>Text Features — Golden Retrievers <span class="level-badge">Level 1 &nbsp;·&nbsp; 6 features</span></h1>
+    <p>7th Grade ELA &nbsp;·&nbsp; Make your article look like the teacher's example</p>
+  </div>
+  <span id="prog-pill">0 of 6 features placed</span>
+</div>
+<div class="directions">
+  <strong>Directions:</strong> Study the Teacher's Example on the left. Select a feature tool, then click the matching spot in your article on the right. Hover any label to read its definition.
+</div>
+<div class="columns">
+
+<!-- TEACHER -->
+<div class="panel">
+  <div class="panel-hdr t-hdr">Teacher's example <span class="badge b-green">model</span></div>
+  <div class="t-body">
+    <div class="t-title">Golden Retrievers: The Ultimate Family Dog
+      <span class="ft ft-title" title="TITLE — The large bold text at the very top that names the article's topic.">title</span>
+    </div>
+    <div class="t-sub">Why golden retrievers have been America's favorite breed for decades
+      <span class="ft ft-sub" title="SUBTITLE — Smaller text just below the title that adds extra detail or context.">subtitle</span>
+    </div>
+    <p>Golden retrievers are one of the most popular dog breeds in the United States. They are known for being <span class="t-bold">friendly, loyal, and easy to train<span class="ft ft-bold" title="BOLD TEXT — Dark, heavy text used to highlight an important word or fact.">bold</span></span>. Originally bred in Scotland in the 1800s to retrieve birds for hunters, they now thrive as family pets, therapy dogs, and guide dogs.</p>
+    <div class="t-img">
+      <svg width="60" height="60" viewBox="0 0 60 60"><ellipse cx="30" cy="38" rx="22" ry="16" fill="#ef9f27"/><ellipse cx="30" cy="22" rx="14" ry="12" fill="#ba7517"/><ellipse cx="23" cy="18" rx="5" ry="7" fill="#ba7517"/><ellipse cx="37" cy="18" rx="5" ry="7" fill="#ba7517"/><circle cx="26" cy="23" r="2" fill="#1a1a1a"/><circle cx="34" cy="23" r="2" fill="#1a1a1a"/><ellipse cx="30" cy="27" rx="4" ry="2.5" fill="#993c1d"/></svg>
+    </div>
+    <div class="t-cap">A golden retriever puppy at eight weeks old.
+      <span class="ft ft-cap" title="CAPTION — A short label below a photo or image that describes what is shown.">caption</span>
+    </div>
+    <p style="margin-top:10px;">Golden retrievers make great pets for many reasons. Here are some of their best qualities:</p>
+    <ul class="t-ul">
+      <li>They are gentle with young children and babies</li>
+      <li>They love to swim and play fetch outdoors</li>
+      <li>They learn new commands faster than most breeds</li>
+      <li>They rarely show aggression toward people or other animals</li>
+    </ul>
+    <span class="ft ft-bullet" style="display:inline-block;margin:2px 0 10px 4px;" title="BULLET POINTS — A list of items marked with dots used to organize related information.">bullet points</span>
+    <div class="t-sidebar">
+      <div class="t-sidebar-ttl">Sidebar: fun facts <span class="ft ft-sidebar" title="SIDEBAR — A box set apart from the main text that shares extra or surprising facts.">sidebar</span></div>
+      <div class="t-sidebar-body">
+        The golden retriever's famous "soft mouth" means they can carry a raw egg without breaking it! This trait was bred into them so they could return hunted birds undamaged. Today, it makes them excellent service dogs — they can carry objects without dropping or crushing them.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STUDENT -->
+<div class="panel">
+  <div class="panel-hdr s-hdr">Your version <span class="badge b-gray" id="s-badge">in progress</span></div>
+  <div class="toolbox">
+    <div class="tb-label">Step 1 — Choose a text feature</div>
+    <div class="tools-grid">
+      <button class="tool-btn" data-f="title"   onclick="pick(this)"><span class="tool-dot" style="background:#ef9f27;"></span>Title</button>
+      <button class="tool-btn" data-f="sub"     onclick="pick(this)"><span class="tool-dot" style="background:#d4537e;"></span>Subtitle</button>
+      <button class="tool-btn" data-f="bold"    onclick="pick(this)"><span class="tool-dot" style="background:#639922;"></span>Bold text</button>
+      <button class="tool-btn" data-f="cap"     onclick="pick(this)"><span class="tool-dot" style="background:#888780;"></span>Caption</button>
+      <button class="tool-btn" data-f="bullet"  onclick="pick(this)"><span class="tool-dot" style="background:#d85a30;"></span>Bullet points</button>
+      <button class="tool-btn" data-f="sidebar" onclick="pick(this)"><span class="tool-dot" style="background:#ba7517;"></span>Sidebar</button>
+    </div>
+    <p class="hint">Step 2 — Click the matching spot in your article. Hover labels in the teacher's example for definitions.</p>
+  </div>
+  <div class="s-body" id="sdoc">
+    <span id="r-title" class="sr block" data-c="title" onclick="apply(this)">Golden Retrievers: The Ultimate Family Dog</span>
+    <span id="r-sub"   class="sr block" data-c="sub"   onclick="apply(this)">Why golden retrievers have been America's favorite breed for decades</span>
+    <p>Golden retrievers are one of the most popular dog breeds in the United States. They are known for being <span id="r-bold1" class="sr" data-c="bold" onclick="apply(this)">friendly, loyal, and easy to train</span>. Originally bred in Scotland in the 1800s to retrieve birds for hunters, they now thrive as family pets, therapy dogs, and guide dogs.</p>
+    <div id="r-img" style="width:100%;height:110px;background:#f5f4f0;border:1.5px dashed #d3d1c7;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:12px;margin:10px 0 3px;">[photo of a golden retriever puppy]</div>
+    <span id="r-cap" class="sr block" data-c="cap" onclick="apply(this)" style="font-size:11px;color:#aaa;">A golden retriever puppy at eight weeks old.</span>
+    <p style="margin-top:10px;">Golden retrievers make great pets for many reasons. Here are some of their best qualities:</p>
+    <div id="r-bullet" class="placeholder" data-c="bullet" onclick="apply(this)">[bullet list: golden retriever qualities — click to format]</div>
+    <div id="r-sidebar" class="placeholder" data-c="sidebar" onclick="apply(this)">[sidebar: fun facts — click to format]</div>
+  </div>
+  <div class="footer">
+    <button class="check-btn" onclick="checkWork()">Check my work</button>
+    <div class="feedback" id="feedback"></div>
+    <button class="reset-btn" id="reset-btn" onclick="location.reload()">Start over</button>
+  </div>
+</div>
+</div>
+
+<script>
+var sel=null,done={},TOTAL=6;
+var correct={'r-title':'title','r-sub':'sub','r-bold1':'bold','r-cap':'cap','r-bullet':'bullet','r-sidebar':'sidebar'};
+function countUnique(){return new Set(Object.values(done)).size;}
+function updateProg(){
+  var n=countUnique();
+  var p=document.getElementById('prog-pill');
+  p.textContent=n+' of '+TOTAL+' features placed';
+  p.className=n>=TOTAL?'done':'';
+  if(n>=TOTAL){var b=document.getElementById('s-badge');b.textContent='complete';b.style.background='#c0dd97';b.style.color='#173404';}
+}
+function pick(btn){
+  var f=btn.dataset.f;
+  document.querySelectorAll('.tool-btn').forEach(function(b){b.classList.remove('active');});
+  if(sel===f){sel=null;return;}
+  sel=f;btn.classList.add('active');
+}
+function flash(el){el.style.outline='2px solid #e24b4a';setTimeout(function(){el.style.outline='';},800);}
+var ctag='<span class="ctag">&#10003; placed</span>';
+function apply(el){
+  if(!sel){flash(el);return;}
+  var id=el.id,f=sel;
+  done[id]=f;
+  el.onclick=null;el.classList.add('locked');el.style.outline='';
+  if(f==='title'){el.className='ap-title';el.innerHTML='Golden Retrievers: The Ultimate Family Dog'+ctag;}
+  else if(f==='sub'){el.className='ap-sub';el.innerHTML="Why golden retrievers have been America's favorite breed for decades"+ctag;}
+  else if(f==='bold'){el.className='ap-bold';el.style.display='inline';el.innerHTML='friendly, loyal, and easy to train'+ctag;}
+  else if(f==='cap'){el.className='ap-cap';el.innerHTML='A golden retriever puppy at eight weeks old.'+ctag;}
+  else if(f==='bullet'){
+    el.className='';el.style.cssText='display:block;';
+    el.innerHTML='<ul class="ap-ul"><li>They are gentle with young children and babies</li><li>They love to swim and play fetch outdoors</li><li>They learn new commands faster than most breeds</li><li>They rarely show aggression toward people or other animals</li></ul>'+ctag;
+  }
+  else if(f==='sidebar'){
+    el.className='ap-sidebar';
+    el.innerHTML='<div class="ap-sidebar-ttl">Sidebar: fun facts '+ctag+'</div><div style="font-size:12.5px;color:#412402;line-height:1.6;">The golden retriever\'s famous "soft mouth" means they can carry a raw egg without breaking it! This trait was bred into them so they could return hunted birds undamaged. Today, it makes them excellent service dogs — they can carry objects without dropping or crushing them.</div>';
+  }
+  document.querySelectorAll('.tool-btn').forEach(function(b){b.classList.remove('active');});
+  sel=null;updateProg();
+}
+function checkWork(){
+  var fb=document.getElementById('feedback'),rb=document.getElementById('reset-btn');
+  var total=Object.keys(correct).length,placed=Object.keys(done).length,wrong=[];
+  for(var id in done){if(correct[id]&&done[id]!==correct[id])wrong.push(id);}
+  fb.style.display='block';rb.style.display='block';
+  if(wrong.length===0&&placed>=total){fb.className='feedback fb-ok';fb.innerHTML='<strong>Great job!</strong> All 6 features are correctly placed. Your article matches the teacher\'s example!';}
+  else if(wrong.length>0){fb.className='feedback fb-hint';fb.innerHTML='<strong>Almost!</strong> One or more features may be misplaced. Compare carefully with the teacher\'s example.';}
+  else{fb.className='feedback fb-hint';fb.innerHTML='<strong>Keep going!</strong> You still have <strong>'+(total-placed)+' spot(s)</strong> left to format.';}
+}
+</script>
+</body>
+</html>
